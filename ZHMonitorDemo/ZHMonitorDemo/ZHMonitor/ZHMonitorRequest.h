@@ -16,7 +16,7 @@
  *
  *  @return 返回数据
  */
-+(NSArray *)monitorEventIds;
++(NSMutableArray *)monitorEventIds;
 
 /**
  *  告诉后台 监控事件 被触发了

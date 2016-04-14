@@ -13,7 +13,7 @@
     /**
      *  保存需要监控的这些按钮id
      */
-    NSArray *_monitorIds;
+    NSMutableArray *_monitorIds;
 }
 static ZHUserMonitorManager * _singleton = nil;
 
@@ -21,6 +21,7 @@ static ZHUserMonitorManager * _singleton = nil;
 {
     if (!_singleton) {
         _singleton = [[ZHUserMonitorManager alloc]init];
+        //初始化按钮清单
         [_singleton initMonitorData];
     }
     return _singleton;
@@ -29,7 +30,7 @@ static ZHUserMonitorManager * _singleton = nil;
 - (void)initMonitorData
 {
     //读取后台所需监控的eventId数据
-    NSArray *idsArray = [ZHMonitorRequest monitorEventIds];
+    NSMutableArray *idsArray = [ZHMonitorRequest monitorEventIds];
     
     _monitorIds = idsArray;
 }

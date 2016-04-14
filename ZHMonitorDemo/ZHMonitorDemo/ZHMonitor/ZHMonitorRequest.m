@@ -9,9 +9,9 @@
 #import "ZHMonitorRequest.h"
 //#import "ZHHttpTool.h"
 @implementation ZHMonitorRequest
-+(NSArray *)monitorEventIds
++(NSMutableArray *)monitorEventIds
 {
-    NSArray *dataArray;
+    NSMutableArray *dataArray;
     //后台配置读取
     
 //    [ZHHttpTool Post:<#(NSString *)#> parameters:<#(NSDictionary *)#> success:^(id responseObject) {
@@ -23,6 +23,9 @@
 //    }];
     return dataArray;
 }
+
+#pragma mark 业务处理
+//上传事件点击
 +(void)postEvent:(NSString *)eventId
 {
     //上传点击

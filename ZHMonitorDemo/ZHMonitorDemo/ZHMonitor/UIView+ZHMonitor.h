@@ -15,5 +15,10 @@
  *  事件的Id, 方便后台记录按钮
  */
 @property (nonatomic,copy)NSString *eventId;
-
+/**
+ *
+ *  给UIVIew设置一个eventId
+ *  @param eventId 事件的ID
+ */
+- (void)setEventId:(NSString *)eventId;
 @end

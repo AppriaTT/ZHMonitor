@@ -45,7 +45,6 @@ const char eventIdKey;
 {
     return objc_getAssociatedObject(self, &eventIdKey);
 }
-
 #pragma mark 增加的方法
 - (UIView *)zhMonitor_hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
@@ -53,14 +52,16 @@ const char eventIdKey;
     if ([NSStringFromClass(btn.class) isEqualToString:@"UIButton"]||[NSStringFromClass(btn.class) isEqualToString:@"UITabBarButton"]) {
         //过滤重复点击
         if (event.timestamp - self.lastClickTime > 0.1) {
-            
-               NSLog(@"%@被点击了%s %f",btn,__FUNCTION__,event.timestamp);
-
-            //记录点击的时间用于过滤重复行为
-            self.lastClickTime = event.timestamp;
-            
 #warning add monitor code here & post INFO to server
             
+            //只要存在eventId就进行监控, 后期进行更加智能的整改
+            if (btn.eventId) {
+                MHLog(@"%@%@被点击了%s %f",btn,btn.eventId,__FUNCTION__,event.timestamp);
+                [[ZHUserMonitorManager sharedManager]eventTrace:btn.eventId];
+            }
+            //记录点击的时间用于过滤重复行为
+            self.lastClickTime = event.timestamp;
+           
         }
     }
     return btn;
