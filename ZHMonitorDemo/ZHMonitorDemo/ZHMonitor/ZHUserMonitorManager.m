@@ -42,4 +42,53 @@ static ZHUserMonitorManager * _singleton = nil;
     //进行数据上传 监控
     [ZHMonitorRequest postEvent:eventId];
 }
+- (void)crashTrace{
+    //注册崩溃方法
+    NSSetUncaughtExceptionHandler(&ZHCatchCrashUncaughtExceptionHandler);
+}
+- (void)uploadCrashLog{
+#warning upload code waiting
+    [ZHCatchCrash getErrorFilePath];
+}
+
 @end
+
+
+
+
+@implementation ZHCatchCrash
+
+void ZHCatchCrashUncaughtExceptionHandler(NSException *exception)
+
+{
+    
+    // 异常的堆栈信息
+    
+    NSArray *stackArray = [exception callStackSymbols];
+    
+    // 出现异常的原因
+    
+    NSString *reason = [exception reason];
+    
+    // 异常名称
+    
+    NSString *name = [exception name];
+    
+    NSString *exceptionInfo = [NSString stringWithFormat:@"Exception reason：%@\nException name：%@\nException stack：%@",name, reason, stackArray];
+    
+    MHLog(@"%@", exceptionInfo);
+    
+    NSMutableArray *tmpArr = [NSMutableArray arrayWithArray:stackArray];
+    
+    [tmpArr insertObject:reason atIndex:0];
+    
+    //保存到本地  --  当然你可以在下次启动的时候，上传这个log
+    NSString *filePath = [NSString stringWithFormat:@"%@/Documents/%@",NSHomeDirectory(),ZHAnalysisErrorFileName];
+    [exceptionInfo writeToFile:filePath  atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    MHLog(@"logPath:%@",filePath);
+}
+
++(NSString *)getErrorFilePath{
+    return [NSString stringWithFormat:@"%@/Documents/%@",NSHomeDirectory(),ZHAnalysisErrorFileName];
+}
+@end  

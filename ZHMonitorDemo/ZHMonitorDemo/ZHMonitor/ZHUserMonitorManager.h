@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#define ZHAnalysisErrorFileName @"error.log"
+
 /**
  *  导入此头文件 根据后台配置 默认开启监控
  */
@@ -47,4 +49,34 @@
  */
 //- (void)logPageView:(NSString *)pageName seconds:(int)seconds;
 
+///---------------------------------------------------------------------------------------
+/// @name  崩溃统计
+///---------------------------------------------------------------------------------------
+
+/** 注册崩溃统计方法, 暂时不自动上传, 手动上传 */
+- (void)crashTrace;
+/**
+ *  手动上传崩溃日志
+ */
+- (void)uploadCrashLog;
 @end
+
+
+
+/**
+ *  抓取用户崩溃的数据
+ */
+@interface ZHCatchCrash : NSObject
+/**
+ *  记录用户崩溃的数据, 需要进入app时进行注册  NSSetUncaughtExceptionHandler(&methodName);
+ */
+void ZHCatchCrashUncaughtExceptionHandler(NSException *exception);
+/**
+ *  获得崩溃日志的地址
+ *
+ *  @return <#return value description#>
+ */
++(NSString *)getErrorFilePath;
+
+@end
+
